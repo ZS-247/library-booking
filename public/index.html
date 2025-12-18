@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Identify User</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #0055A4;
+      --secondary-color: #FFC72C;
+      --text-color: #333333;
+    }
+
+    body {
+      background-image: url('https://www.bradfordcollege.ac.uk/wp-content/themes/autonomous/assets/img/overlays/xcourseheader10.png.pagespeed.ic.bmANABvP3s.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center font-sans">
+
+  <div class="overlay shadow-md rounded-md p-10 w-full max-w-md border-t-4 border-[var(--primary-color)]">
+
+    <h1 class="text-3xl font-bold mb-4 text-[var(--primary-color)]">Library Booth Booking</h1>
+    <p class="text-[var(--text-color)] mb-6">Enter your university ID to continue or view your bookings.</p>
+
+    <div id="error" class="hidden mb-4 p-3 rounded bg-red-100 text-red-700"></div>
+
+    <input
+      id="universityId"
+      type="text"
+      placeholder="University ID"
+      class="w-full px-4 py-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] text-[var(--text-color)]"
+    />
+
+    <button
+      id="submit"
+      class="w-full bg-[var(--primary-color)] text-white py-3 rounded-md mb-3 hover:bg-blue-800 transition-colors font-semibold"
+    >
+      Make Booking
+    </button>
+
+    <button
+      id="view"
+      class="w-full bg-[var(--secondary-color)] text-[var(--text-color)] py-3 rounded-md hover:bg-yellow-400 transition-colors font-semibold"
+    >
+      View Bookings
+    </button>
+
+  </div>
+
+  <script>
+    function handleUserAction(redirectPage) {
+      const id = document.getElementById('universityId').value.trim();
+      const errorEl = document.getElementById('error');
+
+      if (!id) {
+        errorEl.textContent = 'Please enter a university ID';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+
+      fetch(`/api/users/by-university-id/${id}`)
+        .then(res => {
+          if (!res.ok) throw new Error('User not found');
+          return res.json();
+        })
+        .then(user => {
+          sessionStorage.setItem('user_id', user.user_id);
+          window.location.href = redirectPage;
+        })
+        .catch(err => {
+          errorEl.textContent = err.message;
+          errorEl.classList.remove('hidden');
+        });
+    }
+
+    document.getElementById('submit').onclick = () => handleUserAction('/booking.html');
+    document.getElementById('view').onclick = () => handleUserAction('/my-bookings.html');
+  </script>
+
+</body>
+</html>
+

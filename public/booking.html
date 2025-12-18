@@ -1,145 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Book a Booth</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --primary-color: #0055A4;
-      --secondary-color: #FFC72C;
-      --text-color: #333333;
-    }
+	<meta charset="UTF-8" />
+	<title>Book a Booth</title>
+	<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/output.css" rel="stylesheet">
+	<style>
+		:root {
+			--primary-color: #0055A4;
+			--secondary-color: #FFC72C;
+			--text-color: #333333;
+		}
 
-    body {
-      background-image: url('https://www.bradfordcollege.ac.uk/wp-content/themes/autonomous/assets/img/overlays/xcourseheader10.png.pagespeed.ic.bmANABvP3s.png');
-      background-size: cover;
-      background-position: center;
-    }
+		body {
+			background-image: url('https://www.bradfordcollege.ac.uk/wp-content/themes/autonomous/assets/img/overlays/xcourseheader10.png.pagespeed.ic.bmANABvP3s.png');
+			background-size: cover;
+			background-position: center;
+		}
 
-    .overlay {
-      background-color: rgba(255, 255, 255, 0.85);
-    }
-  </style>
+		.overlay {
+			background-color: rgba(255, 255, 255, 0.85);
+		}
+	</style>
+
 </head>
+
 <body class="min-h-screen flex items-center justify-center font-sans">
 
-  <div class="overlay shadow-md rounded-md p-10 w-full max-w-md border-t-4 border-[var(--primary-color)]">
+	<div class="overlay shadow-md rounded-md p-10 w-full max-w-md border-t-4 border-[var(--primary-color)]">
 
-    <h1 class="text-3xl font-bold mb-6 text-[var(--primary-color)]">Book a Booth</h1>
+		<h1 class="text-3xl font-bold mb-6 text-[var(--primary-color)]">Book a Booth</h1>
 
-    <div id="error" class="hidden mb-4 p-3 rounded bg-red-100 text-red-700"></div>
-    <div id="success" class="hidden mb-4 p-3 rounded bg-green-100 text-green-700"></div>
+		<div id="error" class="hidden mb-4 p-3 rounded bg-red-100 text-red-700"></div>
+		<div id="success" class="hidden mb-4 p-3 rounded bg-green-100 text-green-700"></div>
 
-    <div class="space-y-4">
+		<div class="space-y-4">
 
-      <label class="block">
-        <span class="text-[var(--text-color)] font-medium">Booth</span>
-        <select id="booth" class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]">
-          <option value="1">DHB Building</option>
-          <option value="2">TG Building</option>
-        </select>
-      </label>
+			<label class="block">
+				<span class="text-[var(--text-color)] font-medium">Booth</span>
+				<select id="booth"
+					class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]">
+					<option value="1">DHB Building</option>
+					<option value="2">TG Building</option>
+				</select>
+			</label>
 
-      <label class="block">
-        <span class="text-[var(--text-color)] font-medium">Date</span>
-        <input id="date" type="date" class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]"/>
-      </label>
+			<label class="block">
+				<span class="text-[var(--text-color)] font-medium">Date</span>
+				<input id="date" type="date"
+					class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]" />
+			</label>
 
 
-      <div class="grid grid-cols-2 gap-4">
-<label class="block">
-  <span class="text-[var(--text-color)] font-medium">Start Time</span>
-  <select id="start" class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]">
-  </select>
-</label>
+			<div class="grid grid-cols-2 gap-4">
+				<label class="block">
+					<span class="text-[var(--text-color)] font-medium">Start Time</span>
+					<select id="start"
+						class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]">
+					</select>
+				</label>
 
-<label class="block">
-  <span class="text-[var(--text-color)] font-medium">End Time</span>
-  <select id="end" class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]">
-  </select>
-</label>
+				<label class="block">
+					<span class="text-[var(--text-color)] font-medium">End Time</span>
+					<select id="end"
+						class="mt-1 block w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]">
+					</select>
+				</label>
 
-<script>
-  function populateTimeOptions(selectId, startHour = 8, endHour = 20) {
-    const select = document.getElementById(selectId);
-    for (let h = startHour; h <= endHour; h++) {
-      ['00', '30'].forEach(min => {
-        const timeStr = `${h.toString().padStart(2, '0')}:${min}`;
-        const option = document.createElement('option');
-        option.value = timeStr;
-        option.textContent = timeStr;
-        select.appendChild(option);
-      });
-    }
-  }
+				<script>
+					function populateTimeOptions(selectId, startHour = 8, endHour = 20) {
+						const select = document.getElementById(selectId);
+						for (let h = startHour; h <= endHour; h++) {
+							['00', '30'].forEach(min => {
+								const timeStr = `${h.toString().padStart(2, '0')}:${min}`;
+								const option = document.createElement('option');
+								option.value = timeStr;
+								option.textContent = timeStr;
+								select.appendChild(option);
+							});
+						}
+					}
 
-  populateTimeOptions('start');
-  populateTimeOptions('end');
-</script>
-      </div>
+					populateTimeOptions('start');
+					populateTimeOptions('end');
+				</script>
+			</div>
 
-      <button id="submit" class="w-full bg-[var(--primary-color)] text-white py-3 rounded-md hover:bg-blue-800 transition-colors font-semibold">
-        Confirm Booking
-      </button>
+			<button id="submit"
+				class="w-full bg-[var(--primary-color)] text-white py-3 rounded-md hover:bg-blue-800 transition-colors font-semibold">
+				Confirm Booking
+			</button>
 
-    </div>
+		</div>
 
-  </div>
+	</div>
 
-  <script>
-    const userId = sessionStorage.getItem('user_id');
-    const errorEl = document.getElementById('error');
-    const successEl = document.getElementById('success');
+	<script>
+		const userId = sessionStorage.getItem('user_id');
+		const errorEl = document.getElementById('error');
+		const successEl = document.getElementById('success');
 
-    if (!userId) {
-      errorEl.textContent = 'No active session found.';
-      errorEl.classList.remove('hidden');
-    }
+		if (!userId) {
+			errorEl.textContent = 'No active session found.';
+			errorEl.classList.remove('hidden');
+		}
 
-    document.getElementById('submit').onclick = () => {
-      errorEl.classList.add('hidden');
-      successEl.classList.add('hidden');
+		document.getElementById('submit').onclick = () => {
+			errorEl.classList.add('hidden');
+			successEl.classList.add('hidden');
 
-      const boothId = document.getElementById('booth').value;
-      const date = document.getElementById('date').value;
-      const start = document.getElementById('start').value;
-      const end = document.getElementById('end').value;
+			const boothId = document.getElementById('booth').value;
+			const date = document.getElementById('date').value;
+			const start = document.getElementById('start').value;
+			const end = document.getElementById('end').value;
 
-      if (!boothId || !date || !start || !end) {
-        errorEl.textContent = 'All fields are required';
-        errorEl.classList.remove('hidden');
-        return;
-      }
+			if (!boothId || !date || !start || !end) {
+				errorEl.textContent = 'All fields are required';
+				errorEl.classList.remove('hidden');
+				return;
+			}
 
-      fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: userId,
-          booth_id: boothId,
-          start_time: `${date} ${start}`,
-          end_time: `${date} ${end}`
-        })
-      })
-        .then(res => {
-          if (!res.ok) return res.json().then(e => { throw new Error(e.error); });
-          return res.json();
-        })
-        .then(() => {
-          successEl.textContent = 'Booking created successfully. Redirecting to your bookings page.';
-          successEl.classList.remove('hidden');
-          window.setTimeout(function(){
-window.location.href = "/my-bookings.html";
-    }, 2000);
-        })
-        .catch(err => {
-          errorEl.textContent = err.message;
-          errorEl.classList.remove('hidden');
-        });
-    };
-  </script>
+			fetch('/api/bookings', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+					user_id: userId,
+					booth_id: boothId,
+					start_time: `${date} ${start}`,
+					end_time: `${date} ${end}`
+				})
+			})
+				.then(res => {
+					if (!res.ok) return res.json().then(e => {throw new Error(e.error);});
+					return res.json();
+				})
+				.then(() => {
+					successEl.textContent = 'Booking created successfully. Redirecting to your bookings page.';
+					successEl.classList.remove('hidden');
+					window.setTimeout(function () {
+						window.location.href = "/my-bookings.html";
+					}, 2000);
+				})
+				.catch(err => {
+					errorEl.textContent = err.message;
+					errorEl.classList.remove('hidden');
+				});
+		};
+	</script>
 
 </body>
-</html>
 
+</html>

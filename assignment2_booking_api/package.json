@@ -9,10 +9,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
     "better-sqlite3": "^12.5.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.19",
     "express": "^5.2.1",
-    "node-cron": "^4.2.1"
+    "node-cron": "^4.2.1",
+    "tailwindcss": "^4.1.18"
   }
 }

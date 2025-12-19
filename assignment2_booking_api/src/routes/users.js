@@ -24,13 +24,10 @@ router.get('/by-university-id/:universityId', (req, res) => {
 	});
 });
 
-/**
- * GET /api/users/:id/bookings
- */
+// GET /api/users/:id/bookings
+
 router.get('/:id/bookings', (req, res) => {
 	const userId = req.params.id;
-
-	// Optional: verify user exists
 	const userExists = db.prepare(
 		`SELECT 1 FROM users WHERE id = ?`
 	).get(userId);

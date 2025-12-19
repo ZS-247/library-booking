@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const bookingService = require('../services/bookingService');
-
+//booking creation
 router.post('/', (req, res) => {
 	try {
 		const id = bookingService.createBooking({

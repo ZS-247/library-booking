@@ -6,6 +6,10 @@
 ## Demo
 The completed project is currently availible at https://website-assignment.zakarya.me/ and this repository is currently hosted at https://git.zakarya.me/zakarya/Library-Booking-System. 
 In adddition, it is permanently availible at https://github.com/ZS-247/library-booking. 
+<img width="641" height="267" alt="image" src="https://github.com/user-attachments/assets/c4d11d9a-2ca6-45eb-b1c7-e5887eaabaf9" />
+Visit [here](https://website-assignment.zakarya.me/staff-login.html) for staff demo.
+<img width="1074" height="393" alt="image" src="https://github.com/user-attachments/assets/f19a11be-f13b-47e5-bfb1-985662d61257" />
+Or [here](https://website-assignment.zakarya.me/my-bookings.html) for student demo. 
 
 The demo database contains was given the following for demonstration and testing purposes:
 ```

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Staff Dashboard</title>
+
+	<link rel="stylesheet" href="/style.css">
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6">
+
+	<div class="max-w-6xl mx-auto bg-white shadow rounded-lg p-6">
+
+		<div class="flex justify-between items-center mb-6">
+			<h1 class="text-2xl">Library Booth Bookings</h1>
+			Role: <span id="role" class="font-semibold"></span>
+		</div>
+
+		<table class="w-full border-collapse">
+			<thead>
+				<tr class="bg-gray-200 text-left">
+					<th class="p-2">Booth</th>
+					<th class="p-2">University ID</th>
+					<th class="p-2">Start</th>
+					<th class="p-2">End</th>
+					<th class="p-2">Status</th>
+					<th class="p-2">Action</th>
+				</tr>
+			</thead>
+			<tbody id="bookingTable"></tbody>
+		</table>
+
+	</div>
+
+	<script>
+		const role = sessionStorage.getItem('staff_role');
+		document.getElementById('role').textContent = role || 'Unknown';
+
+		if (!role) {
+			window.location.href = '/staff-login.html';
+		}
+
+		fetch('/api/staff/bookings')
+			.then(res => res.json())
+			.then(data => renderTable(data));
+
+		function renderTable(bookings) {
+			const tbody = document.getElementById('bookingTable');
+			tbody.innerHTML = '';
+
+			bookings.forEach(b => {
+				const tr = document.createElement('tr');
+				tr.classList.add('border-t');
+
+				tr.innerHTML = `
+      <td class="p-2">${b.booth_name}</td>
+      <td class="p-2">${b.university_id}</td>
+      <td class="p-2">${b.start_time}</td>
+      <td class="p-2">${b.end_time}</td>
+      <td class="p-2">${b.status}</td>
+      <td class="p-2">
+        ${role === 'admin' && b.status === 'active'
+						? `<button class="secondary" onclick="cancelBooking(${b.booking_id})">Cancel</button>`
+						: '-'}
+      </td>
+    `;
+				tbody.appendChild(tr);
+			});
+		}
+
+		function cancelBooking(id) {
+			if (!confirm('Cancel this booking?')) return;
+
+			fetch(`/api/staff/bookings/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'X-Staff-Role': role
+				}
+			}).then(() => location.reload());
+		}
+	</script>
+
+</body>
+
+</html>

@@ -1,6 +1,17 @@
 PRAGMA foreign_keys = ON;
 
 --------------------------------------------------
+-- STAFF
+--------------------------------------------------
+CREATE TABLE staff (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL, -- plaintext acceptable for coursework
+    role TEXT NOT NULL CHECK (role IN ('staff', 'admin')),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+--------------------------------------------------
 -- USERS
 --------------------------------------------------
 CREATE TABLE users (
@@ -100,3 +111,30 @@ ON bookings (booth_id, start_time, end_time);
 
 CREATE INDEX idx_bookings_status
 ON bookings (status);
+
+-- Initial data for library hours
+INSERT INTO library_hours (weekday, open_time, close_time, is_closed) VALUES
+(0, '08:00', '22:00', 0),
+(1, '08:00', '22:00', 0),
+(2, '08:00', '22:00', 0),
+(3, '08:00', '22:00', 0),
+(4, '08:00', '22:00', 0),
+(5, '10:00', '18:00', 0),
+(6, '12:00', '16:00', 0);
+-- Initial admin user
+INSERT INTO staff (username, password, role)
+VALUES
+('staff', 'password', 'staff'),
+('admin', 'password', 'admin');
+-- Initial booths
+INSERT INTO booths (booth_code, location, is_active) VALUES
+('DHB', 'David Hockney Building', 1),
+('TG', 'Trinity Green Building', 1);
+
+-- Initial users
+INSERT INTO users (university_id, name) VALUES
+('u123456', 'John Smith'),
+('u123457', 'Test User');
+
+
+

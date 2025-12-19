@@ -17,10 +17,12 @@ app.use((req, res, next) => {
 	next();
 });
 
-//app.use('/', express.static(path.join(__dirname, 'public'))) // serving via nginx now
+app.use('/', express.static(path.join(__dirname, 'public')))
+// serving via nginx in production, this is just for development
 
 app.use('/api/bookings', bookings);
 app.use('/api/users', users);
+app.use('/api/staff', require('./routes/staff'));
 app.listen(3000, () => {
 	console.log('Library booking API running on port 3000');
 });

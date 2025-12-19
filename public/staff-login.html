@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Staff Login</title>
+
+<link rel="stylesheet" href="/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+
+<div class="form-card">
+  <h1 class="text-xl mb-4">Library Staff Login</h1>
+  <p class="text-gray-600 mb-4">Authorised staff only</p>
+
+  <div id="error" class="error hidden"></div>
+
+  <input id="username" type="text" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+
+  <button class="primary" id="loginBtn">Login</button>
+</div>
+
+<script>
+document.getElementById('loginBtn').onclick = () => {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorEl = document.getElementById('error');
+
+  errorEl.classList.add('hidden');
+
+  fetch('/api/staff/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Invalid credentials');
+    return res.json();
+  })
+  .then(data => {
+    sessionStorage.setItem('staff_id', data.staff_id);
+    sessionStorage.setItem('staff_role', data.role);
+    window.location.href = '/staff-dashboard.html';
+  })
+  .catch(err => {
+    errorEl.textContent = err.message;
+    errorEl.classList.remove('hidden');
+  });
+};
+</script>
+
+</body>
+</html>

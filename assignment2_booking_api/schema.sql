@@ -1,8 +1,6 @@
 PRAGMA foreign_keys = ON;
 
---------------------------------------------------
--- STAFF
---------------------------------------------------
+-- STAFF 
 CREATE TABLE staff (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
@@ -11,9 +9,9 @@ CREATE TABLE staff (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
---------------------------------------------------
+
 -- USERS
---------------------------------------------------
+
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     university_id TEXT UNIQUE NOT NULL,
@@ -25,9 +23,8 @@ CREATE TABLE users (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
---------------------------------------------------
 -- BOOTHS
---------------------------------------------------
+
 CREATE TABLE booths (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     booth_code TEXT UNIQUE NOT NULL,
@@ -35,9 +32,9 @@ CREATE TABLE booths (
     is_active INTEGER NOT NULL DEFAULT 1
 );
 
---------------------------------------------------
+
 -- LIBRARY OPENING HOURS
---------------------------------------------------
+
 CREATE TABLE library_hours (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     weekday INTEGER NOT NULL CHECK (weekday BETWEEN 0 AND 6),
@@ -48,9 +45,9 @@ CREATE TABLE library_hours (
     UNIQUE (weekday)
 );
 
---------------------------------------------------
+
 -- BOOKINGS
---------------------------------------------------
+
 CREATE TABLE bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
@@ -75,9 +72,9 @@ CREATE TABLE bookings (
     CHECK (end_time > start_time)
 );
 
---------------------------------------------------
+
 -- BOOKING EVENTS 
---------------------------------------------------
+
 CREATE TABLE booking_events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
@@ -99,9 +96,9 @@ CREATE TABLE booking_events (
     FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE
 );
 
---------------------------------------------------
+
 -- INDEXES
---------------------------------------------------
+
 
 CREATE INDEX idx_bookings_user_day
 ON bookings (user_id, DATE(start_time));

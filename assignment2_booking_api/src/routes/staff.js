@@ -1,3 +1,4 @@
+// todo add more secure auth
 const express = require('express');
 const router = express.Router();
 const db = require('../db');         // library.db
